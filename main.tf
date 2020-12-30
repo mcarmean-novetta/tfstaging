@@ -21,10 +21,12 @@ resource "aws_s3_bucket" "this" {
       abort_incomplete_multipart_upload_days = lifecycle_rule.value.abort_incomplete_multipart_upload_days
 
       dynamic "expiration" {
-        for_each = lifecycle_rule.value.expiration
+        for_each = lifecycle_rule.value.expiration != null ? [lifecycle_rule.value.expiration] : []
 
         content {
-          days = expiration.value.days
+          date                          = expiration.value.date
+          days                          = expiration.value.days
+          expired_object_delete_marker  = expiration.value.expired_object_delete_marker
         }
       }
 
