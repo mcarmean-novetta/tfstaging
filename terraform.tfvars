@@ -1,4 +1,4 @@
-bucket_name = "mcarmean-tf-dynamic-blocks-mpu"
+bucket_name = "mcarmean-tf-dynamic-blocks-123"
 bucket_tags = {
   tagged    = "yes"
   terraform = "ofCourse"
@@ -6,15 +6,13 @@ bucket_tags = {
 bucket_acl = "private"
 
 lifecycle_rules = [{
-  id                                     = "thisIsMyLifecycle"
+  id                                     = "noexp"
   enabled                                = "true"
   prefix                                 = "thePrefix/"
   tags                                   = null
   abort_incomplete_multipart_upload_days = 7
 
-  expiration = [{
-    days = 95
-  }]
+  expiration = null
 
   transition = [{
         days = 30
@@ -26,15 +24,17 @@ lifecycle_rules = [{
     }]
   },
   {
-    id                                     = "myLifecyclePart2"
+    id                                     = "expiredobjdel"
     enabled                                = "true"
     prefix                                 = null
     tags                                   = { lcp = "testing", lcp2 = "mapWorked" }
-    abort_incomplete_multipart_upload_days = 0
+    abort_incomplete_multipart_upload_days = null
 
-    expiration = [{
+    expiration = {
+      date = null
       days = 45
-    }]
+      expired_object_delete_marker = true
+    }
 
     transition = [{
         days = 31
@@ -48,9 +48,11 @@ lifecycle_rules = [{
     tags                                   = null
     abort_incomplete_multipart_upload_days = 7
 
-    expiration = [{
+    expiration = {
+      date = null
       days = 95
-    }]
+      expired_object_delete_marker = null
+    }
 
     transition = [{
         days = 45

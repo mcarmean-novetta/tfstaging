@@ -25,9 +25,11 @@ variable "lifecycle_rules" {
     tags                                   = map(string)
     abort_incomplete_multipart_upload_days = number
 
-    expiration = list(object({
-      days = number
-    }))
+    expiration = object({
+      date                          = string
+      days                          = number
+      expired_object_delete_marker  = string
+    })
 
     transition = list(object({
       days = number
